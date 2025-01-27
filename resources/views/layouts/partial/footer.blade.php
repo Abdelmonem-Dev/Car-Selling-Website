@@ -1,0 +1,3 @@
+<footer>
+    @yield('footerLinks')
+</footer>
