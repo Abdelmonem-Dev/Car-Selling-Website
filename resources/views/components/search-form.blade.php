@@ -1,8 +1,9 @@
+
 <section class="find-a-car">
     <div class="container">
       <form
-        action="/s.html"
-        method="GET"
+        action="{{ $action }}"
+        method="{{ $method }}"
         class="find-a-car-form card flex p-medium"
       >
         <div class="find-a-car-inputs">
