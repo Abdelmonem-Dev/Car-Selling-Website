@@ -13,4 +13,14 @@ class Model extends EloquentModel
         'name',
         'maker_id'
     ];
+
+    public function maker()
+    {
+        return $this->belongsTo(Maker::class);
+    }
+    public function cars()
+    {
+        return $this->hasMany(Car::class);
+    }
+
 }
