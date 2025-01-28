@@ -90,7 +90,7 @@
 
     <main>
 <!-- Find a car form -->
-    <x-search-form action="/search" method="get"/>
+    <x-search-form/>
 
 <!--/ Find a car form -->
 
@@ -102,7 +102,6 @@
         @for ($i = 0; $i < 12; $i++)
             <x-car-item>
             </x-car-item>
-
         @endfor
     </div>
   </div>

@@ -11,7 +11,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        //
+        return view('car.index');
     }
 
     /**
@@ -19,7 +19,7 @@ class CarController extends Controller
      */
     public function create()
     {
-        //
+        return view('car.create');
     }
 
     /**
@@ -27,7 +27,7 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return view('car.store');
     }
 
     /**
@@ -35,7 +35,7 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('car.show');
     }
 
     /**
@@ -43,7 +43,8 @@ class CarController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('car.edit');
+
     }
 
     /**
@@ -60,5 +61,9 @@ class CarController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function search()
+    {
+        return view('car.search');
     }
 }
