@@ -22,4 +22,5 @@ Route::get('/resetPassword', function () {
 })->name('auth.resetPassword');
 
 Route::get('/car/search', [CarController::class, 'search'])->name('car.search');
+Route::get('/car/watchlist', [CarController::class, 'watchlist'])->name('car.watchlist');
 Route::resource('car', CarController::class);
