@@ -83,15 +83,3 @@ Fork & create PRs to suggest improvements.
 If you find this project useful, please consider supporting me through GitHub Sponsors.
 Your support helps me dedicate more time to maintaining and improving this project.
 
-
-
----
-
-### **What’s Improved?**
-✅ **Consistent Formatting**: Clear section breaks and proper spacing.  
-✅ **Better Readability**: Bullet points, numbering, and emojis to make it engaging.  
-✅ **Clarified Setup Steps**: Step-by-step guide that users can follow easily.  
-✅ **Optional Step for Security**: Mentioned adding `.env` to `.gitignore` to prevent accidental commits.  
-✅ **Encouraged Contributions & Support**: With better call-to-action for issues & sponsorships.  
-
-This will make your README **cleaner, more professional, and easy to understand**. 🚀
