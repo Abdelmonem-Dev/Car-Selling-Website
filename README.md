@@ -73,7 +73,7 @@ php artisan serve
 8️⃣ (Optional) Add .env to .gitignore
 Add this line in .gitignore to prevent exposing sensitive environment variables:
 .env
-
+ ```
 🛠️ Contribution
 Since this project is still in development, contributions are welcome!
 
