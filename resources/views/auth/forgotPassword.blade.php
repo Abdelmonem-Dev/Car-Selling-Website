@@ -12,7 +12,7 @@
     </form>
     <x-slot:footerLink>
         Back to Login? -
-        <a href="/login.html"> Click here </a>
+        <a href="{{route('auth.login')}}"> Click here </a>
     </x-slot:footerLink>
 
 </x-guest-layout>
