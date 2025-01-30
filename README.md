@@ -40,8 +40,8 @@ This project is **not yet complete**. Some features may be missing or subject to
 
 ### **Setup Instructions**  
 
-1️⃣ **Clone the Repository**  
-   ```sh  
+ ```sh  
+1️⃣ Clone the Repository
    git clone https://github.com/username/car-selling-website.git  
    cd car-selling-website
 
