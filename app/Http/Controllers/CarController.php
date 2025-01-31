@@ -283,7 +283,7 @@ $car->features()->create([
         $cars = $user
             ->favouriteCars()
             ->with(['primaryImage','city','carType','fuelType','maker','model'])
-            ->paginate(1);
+            ->paginate(9);
 
         return view('car.watchlist', ['cars' => $cars]);
     }

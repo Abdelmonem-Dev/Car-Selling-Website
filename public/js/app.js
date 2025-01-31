@@ -325,3 +325,25 @@ document.addEventListener("DOMContentLoaded", function () {
         $("form")[0].reset();
       });
     });
+
+
+    
+    function toggleFavorite(carId, button) {
+        fetch(`/favorite/toggle/${carId}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const icons = button.querySelectorAll("svg");
+                icons.forEach(icon => icon.classList.toggle("hidden"));
+            } else {
+                alert("Failed to update favorites.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }

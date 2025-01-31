@@ -5,6 +5,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\FavoriteController;
 
 
 
@@ -52,4 +53,5 @@ Route::get('/car/create', [CarController::class, 'create'])->name('car.create');
 Route::get('/car/edit', [CarController::class, 'edit'])->name('car.edit');
 Route::get('/car/{id}', [CarController::class, 'show'])->name('car.show');
 Route::get('/car', [CarController::class, 'index'])->name('car');
+Route::post('/favorite/toggle/{car}', [FavoriteController::class, 'toggle'])->name('favorite.toggle');
 
