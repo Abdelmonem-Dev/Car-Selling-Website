@@ -79,11 +79,8 @@ Since this project is still in development, contributions are welcome!
 
 Report issues in the Issues tab.
 Fork & create PRs to suggest improvements.
-❤️ Support My Work
-If you find this project useful, please consider supporting me through GitHub Sponsors.
-Your support helps me dedicate more time to maintaining and improving this project.
 
-   ## Support My Work
+❤️## Support My Work
 
 If you find this project useful, please consider supporting me through [GitHub Sponsors](https://github.com/sponsors/Abdelmonem-Dev). Your support helps me dedicate more time to maintaining and improving this project.
 
