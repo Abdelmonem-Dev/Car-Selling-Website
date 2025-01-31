@@ -25,7 +25,7 @@ class CarController extends Controller
     public function index()
     {
         // Find the user with ID 1
-        $user = User::find(3);
+        $user = Auth::user();
 
         // Check if the user exists
         if (!$user) {
@@ -120,24 +120,27 @@ $car->features()->create([
     'rear_parking_sensors' => $validated['features']['rear_parking_sensors'] ?? 0,
     'leather_seats' => $validated['features']['leather_seats'] ?? 0,
 ]);
-
-    // Process the images if provided
-    if (!empty($validated['images']) && is_array($validated['images'])) {
+     // Process and store the images if provided
+     if (!empty($validated['images']) && is_array($validated['images'])) {
         $images = [];
+        $position = 1;
         foreach ($validated['images'] as $image) {
-            // Validate and store the image
-            $path = $image->store('car_images', 'public');
+            // Generate a unique file name and store the image in the public directory
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('car_images'), $imageName); // Store the image in public/car_images
 
-            // Store image data in the correct format for createMany
+            // Save the image path to the database
             $images[] = [
-                'car_id' => $carId ,
-                'image_path' => $path,
-                'position' => 1,
+                'car_id'     => $car->id,
+                'image_path' => 'car_images/' . $imageName, // Store the relative path
+                'position'   => $position, // Adjust position as needed
             ];
+            $position = 2;
         }
 
-        // Attach images to the car
+        // Save the image records to the database
         $car->images()->createMany($images);
+
     } else {
         // Handle the error or provide a fallback if no images are provided
         return back()->withErrors(['images' => 'Please provide valid image data.']);
@@ -173,11 +176,25 @@ $car->features()->create([
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Car $car)
-    {
-        return view('car.edit');
+    public function edit($car_id)
+{
+    $car = Car::with(['primaryImage', 'city', 'carType', 'fuelType', 'maker', 'model', 'features'])
+              ->where('id', $car_id)
+              ->firstOrFail();
 
+    // Ensure the authenticated user owns the car
+    if (Auth::id() !== $car->user_id) {
+        return redirect()->route('car')->with('error', 'Unauthorized access.');
     }
+
+    // Fetch necessary data for the edit form
+    $makers = Maker::all();
+    $states = State::all();
+    $years = range(1900, date('Y'));
+
+    return view('car.edit', compact('car', 'makers', 'states', 'years'));
+}
+
 
     /**
      * Update the specified resource in storage.
@@ -190,9 +207,20 @@ $car->features()->create([
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Car $car)
+    public function destroy($car_id)
     {
-        //
+        $car = Car::find($car_id);
+
+        // Ensure the authenticated user owns the car
+        if (Auth::id() !== $car->user_id) {
+            return redirect()->route('car')->with('error', 'Unauthorized access.');
+        }
+
+        // Delete the car
+        $car->delete();
+
+        // Redirect with success message
+        return redirect()->route('car')->with('success', 'Car deleted successfully.');
     }
     public function search()
     {

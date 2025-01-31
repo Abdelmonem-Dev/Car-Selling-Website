@@ -2,8 +2,8 @@
 
 <div class="car-item card" id="car-{{$car->id}}">
     <a href="{{ route('car.show', $car) }}">
-        <img src="{{ $car->primaryImage->image_path ?? asset('images/no-image.png') }}"
-             alt=""
+        <img src="{{ asset(optional($car->primaryImage)->image_path ?? 'default-image-path.jpg') }}"
+        alt=""
              class="car-item-img rounded-t"
              loading="lazy"/>
     </a>

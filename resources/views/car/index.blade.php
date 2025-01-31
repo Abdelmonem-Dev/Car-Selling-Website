@@ -21,9 +21,8 @@
                     @forelse ($cars as $car)
                     <tr>
                       <td>
-                        <img
-                          src="{{ $car->primaryImage->image_path ?? asset('images/no-image.png') }}"
-                          alt=""
+                        <img src="{{ asset(optional($car->primaryImage)->image_path ?? 'default-image-path.jpg') }}"
+                        alt=""
                           class="my-cars-img-thumbnail"
                         />
                       </td>
@@ -53,7 +52,7 @@
                           edit
                         </a>
                         <a
-                          href="car_images.html"
+                          href=""
                           class="btn btn-edit inline-flex items-center"
                         >
                           <svg
@@ -72,7 +71,7 @@
                           </svg>
                           images
                         </a>
-                        <button class="btn btn-delete inline-flex items-center">
+                        <a href="{{route('car.delete',$car->id)}}" class="btn btn-delete inline-flex items-center">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -89,7 +88,7 @@
                           </svg>
 
                           delete
-                        </button>
+                        </a>
                       </td>
                     </tr>
                     @empty
