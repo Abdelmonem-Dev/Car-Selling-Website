@@ -1,9 +1,9 @@
 @props(['car', 'isInWatchlist' => false])
-    <div class="car-item card">
+    <div class="car-item card" id='search-results'>
         <a href="{{ route('car.show', $car) }}">
           <img
-            src="{{ $car->primaryImage->image_path }}"
-            alt=""
+          src="{{ $car->primaryImage->image_path ?? asset('images/no-image.png') }}"
+          alt=""
             class="car-item-img rounded-t"
           loading="lazy"/>
         </a>

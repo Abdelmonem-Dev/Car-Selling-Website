@@ -44,6 +44,7 @@ class SignupRequest extends FormRequest
             'phone.string' => 'Phone number must be a string',
             'phone.max' => 'Phone number must not exceed 15 characters',
             'phone.regex' => 'Phone number must be a valid 10-15 digit number',
+            'phone.unique' => 'This phone is already used',
 
             'email.required' => 'Email is required',
             'email.email' => 'Email or password invalid',

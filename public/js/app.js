@@ -231,3 +231,97 @@ document.addEventListener("DOMContentLoaded", function () {
     distance: "50%",
   });
 });
+
+    // Listen for the change event on the state dropdown
+    $('#state').change(function() {
+        var stateId = $(this).val();
+
+        if (stateId) {
+            // Make an AJAX request to fetch cities for the selected state
+            $.ajax({
+                url: '/cities/' + stateId,  // The route to get cities
+                method: 'GET',
+                success: function(response) {
+                    // Empty the city dropdown
+                    $('#city').empty();
+
+                    // Add a default option
+                    $('#city').append('<option value="">Select a city</option>');
+
+                    // Loop through the cities and append them to the dropdown
+                    response.forEach(function(city) {
+                        $('#city').append('<option value="' + city.id + '">' + city.name + '</option>');
+                    });
+                }
+            });
+        } else {
+            // If no state is selected, clear the city dropdown
+            $('#city').empty();
+            $('#city').append('<option value="">Select a city</option>');
+        }
+    });
+
+   // Listen for the change event on the state dropdown
+   $('#maker').change(function() {
+    var makerId = $(this).val();
+
+    if (makerId) {
+        // Make an AJAX request to fetch cities for the selected state
+        $.ajax({
+            url: '/models/' + makerId,  // The route to get cities
+            method: 'GET',
+            success: function(response) {
+                // Empty the city dropdown
+                $('#model').empty();
+
+                // Add a default option
+                $('#model').append('<option value="">Select a model</option>');
+
+                // Loop through the cities and append them to the dropdown
+                response.forEach(function(model) {
+                    $('#model').append('<option value="' + model.id + '">' + model.name + '</option>');
+                });
+            }
+        });
+    } else {
+        // If no state is selected, clear the city dropdown
+        $('#model').empty();
+        $('#model').append('<option value="">Select a model</option>');
+    }
+});
+
+    // When document is ready
+    $(document).ready(function() {
+      // Validation for Year and Price Range
+      $("form").submit(function(event) {
+        let valid = true;
+
+        // Get values
+        const yearFrom = $("#year_from").val();
+        const yearTo = $("#year_to").val();
+        const priceFrom = $("#price_from").val();
+        const priceTo = $("#price_to").val();
+
+        // Validate year range
+        if (yearFrom && yearTo && yearFrom > yearTo) {
+          valid = false;
+          alert("Year From must be less than Year To");
+        }
+
+        // Validate price range
+        if (priceFrom && priceTo && parseFloat(priceFrom) > parseFloat(priceTo)) {
+          valid = false;
+          alert("Price From must be less than Price To");
+        }
+
+        // Prevent form submission if validation fails
+        if (!valid) {
+          event.preventDefault();
+        }
+      });
+
+      // Reset form fields when Reset button is clicked
+      $(".btn-find-a-car-reset").click(function() {
+        $("form")[0].reset();
+      });
+    });

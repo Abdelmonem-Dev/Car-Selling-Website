@@ -17,11 +17,12 @@
                     </tr>
                   </thead>
                   <tbody>
+
                     @forelse ($cars as $car)
                     <tr>
                       <td>
                         <img
-                          src="{{ $car->primaryImage->image_path }}"
+                          src="{{ $car->primaryImage->image_path ?? asset('images/no-image.png') }}"
                           alt=""
                           class="my-cars-img-thumbnail"
                         />
@@ -102,7 +103,9 @@
                 </table>
               </div>
 
+            @if ($cars)
             {{$cars->links()}}
+            @endif
             </div>
           </div>
         </div>

@@ -57,7 +57,7 @@ class Car extends EloquentModel
     }
     public function features()
     {
-        return $this->hasOne(CarFeatures::class, 'car_id');
+        return $this->hasOne(CarFeatures::class, 'car_id','id');
     }
     public function primaryImage()
     {

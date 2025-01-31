@@ -8,12 +8,18 @@ use App\Http\Controllers\VerificationController;
 
 
 
+// web.php
+// web.php
+Route::get('/cities/{stateId}', [CarController::class, 'getCitiesByState']);
+Route::get('/models/{makerId}', [CarController::class, 'getModelsByMaker']);
 
 Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/login', function () {
     return view('auth.login');
 })->name('auth.login');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.loginAction');
+
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 Route::get('/signup', function () {
     return view('auth.signup');
@@ -38,7 +44,12 @@ Route::get('/resetPassword', function () {
     return view('auth.resetPassword');
 })->name('auth.resetPassword');
 
+Route::post('/car/create', [CarController::class, 'createCar'])->name('car.createCar');
 Route::get('/car/search', [CarController::class, 'search'])->name('car.search');
+Route::post('/car/search', [CarController::class, 'searchAction'])->name('car.searchAction');
 Route::get('/car/watchlist', [CarController::class, 'watchlist'])->name('car.watchlist');
-Route::resource('car', CarController::class)->name('index', 'car');
+Route::get('/car/create', [CarController::class, 'create'])->name('car.create');
+Route::get('/car/edit', [CarController::class, 'edit'])->name('car.edit');
+Route::get('/car/{id}', [CarController::class, 'show'])->name('car.show');
+Route::get('/car', [CarController::class, 'index'])->name('car');
 
