@@ -60,7 +60,7 @@
             </a>
             <ul class="submenu">
                 <li>
-                    <a href="{{route('car')}}">My Profile</a>
+                    <a href="{{route('config.profile')}}">My Profile</a>
                   </li>
               <li>
                 <a href="{{route('car')}}">My Cars</a>
@@ -69,7 +69,7 @@
                 <a href="{{route('car.watchlist')}}">My Favourite Cars</a>
               </li>
               <li>
-                <a href="{{route('car')}}">My Setting</a>
+                <a href="{{route('config.settings')}}">My Setting</a>
               </li>
 
               @if (Auth::check())

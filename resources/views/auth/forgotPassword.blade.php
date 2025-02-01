@@ -3,9 +3,11 @@
 
     <h1 class="auth-page-title">Forgot Password</h1>
 
-    <form action="" method="post">
+    <form action="{{route('auth.forgotPasswordAction')}}" method="post">
+    @csrf
+
       <div class="form-group">
-        <input type="email" placeholder="Your Email" />
+        <input type="email" placeholder="Your Email" name="email"/>
       </div>
 
       <button class="btn btn-primary btn-login w-full">Send Reset Link</button>

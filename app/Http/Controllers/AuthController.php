@@ -23,7 +23,7 @@ class AuthController extends Controller
         $user = new User();
         $user->name = $validated['first_name'].' '.$validated['last_name'];
         $user->email = $validated['email'];
-        $user->password = bcrypt($validated['password']);
+        $user->password = Hash::make($validated['password']);
         $user->phone = $validated['phone'];
         $user->save();
 
@@ -77,13 +77,10 @@ public function checkToken(Request $request)
         ->first();
 
 if($tokenRecord){
-        if ($tokenRecord->token === $request->token) {
+
         // Token is valid, show reset password form
         return view('auth.resetPassword', ['email' => $request->email])->with('success', 'Token is valid.');
-    } else {
-        // Token is invalid or expired
-        return redirect()->back()->with('error', 'Invalid or expired token.');
-    }
+
 }else{
     return redirect()->back()->with('error', 'Invalid or expired token.');
 }

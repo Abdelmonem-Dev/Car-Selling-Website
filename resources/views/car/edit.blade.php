@@ -1,10 +1,20 @@
 <x-app-layout>
-
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <x-message-error :message="$error" />
+            @endforeach
+        </ul>
+    </div>
+@endif
 
     <main>
       <div class="container-small">
         <h1 class="car-details-page-title">Edit Car: Lexus NX200t - 2016</h1>
-        <form action="" class="card add-new-car-form">
+        <form action="{{route('car.editAction',$car->id)}}" method="POST" class="card add-new-car-form">
+        @csrf
+
           <div class="form-content">
             <div class="form-details">
               <div class="row">
@@ -13,7 +23,7 @@
                     <label>Maker</label>
 
                     <select id="maker" name="maker">
-                        <option value="$car->maker_id">{{$car->maker->name}}</option>
+                        <option value="{{$car->maker_id}}">{{$car->maker->name}}</option>
                         @forelse ($makers as $maker)
                         <option value="{{$maker->id}}">{{$maker->name}}</option>
                         @empty
@@ -27,7 +37,7 @@
                   <div class="form-group">
                     <label>Model</label>
                     <select id="model" name="model">
-                      <option value="$car->model_id">{{$car->model->name}}</option>
+                      <option value="{{$car->model_id}}">{{$car->model->name}}</option>
                     </select>
                   </div>
                 </div>
@@ -35,7 +45,7 @@
                   <div class="form-group">
                     <label>Year</label>
                    <select name="year">
-                    <option value="$car->year">{{$car->year}}</option>
+                    <option value="{{$car->year}}">{{$car->year}}</option>
                     @forelse ($years as $year)
 
                     <option value="{{$year}}">{{$year}}</option>
@@ -79,19 +89,19 @@
                 <div class="col">
                   <div class="form-group">
                     <label>Price</label>
-                    <input type="number" placeholder="Price" value="{{$car->price}}"/>
+                    <input type="number" placeholder="Price" name="price" value="{{$car->price}}"/>
                   </div>
                 </div>
                 <div class="col">
                   <div class="form-group">
                     <label>Vin Code</label>
-                    <input placeholder="Vin Code" value="{{$car->vin}}"/>
+                    <input placeholder="Vin Code" name="vin_code" value="{{$car->vin}}"/>
                   </div>
                 </div>
                 <div class="col">
                   <div class="form-group">
                     <label>Mileage (ml)</label>
-                    <input placeholder="Mileage" value="{{$car->mileage}}"/>
+                    <input placeholder="Mileage" name="mileage" value="{{$car->mileage}}"/>
                   </div>
                 </div>
               </div>
@@ -100,25 +110,25 @@
                 <div class="row">
                     <div class="col">
                         <label class="inline-radio">
-                            <input type="radio" name="fuel_type" value="gasoline" @checked($car->fuel_type_id === 1) />
+                            <input type="radio" name="fuel_type" value="1" @checked($car->fuel_type_id === 1) />
                             Gasoline
                         </label>
                     </div>
                     <div class="col">
                         <label class="inline-radio">
-                            <input type="radio" name="fuel_type" value="diesel" @checked($car->fuel_type_id === 2) />
+                            <input type="radio" name="fuel_type" value="2" @checked($car->fuel_type_id === 2) />
                             Diesel
                         </label>
                     </div>
                     <div class="col">
                         <label class="inline-radio">
-                            <input type="radio" name="fuel_type" value="electric" @checked($car->fuel_type_id === 3) />
+                            <input type="radio" name="fuel_type" value="3" @checked($car->fuel_type_id === 3) />
                             Electric
                         </label>
                     </div>
                     <div class="col">
                         <label class="inline-radio">
-                            <input type="radio" name="fuel_type" value="hybrid" @checked($car->fuel_type_id === 4) />
+                            <input type="radio" name="fuel_type" value="4" @checked($car->fuel_type_id === 4) />
                             Hybrid
                         </label>
                     </div>
@@ -152,13 +162,13 @@
                 <div class="col">
                   <div class="form-group">
                     <label>Address</label>
-                    <input placeholder="Address" value="{{$car->address}}"/>
+                    <input placeholder="Address" name="address" value="{{$car->address}}"/>
                   </div>
                 </div>
                 <div class="col">
                   <div class="form-group">
                     <label>Phone</label>
-                    <input placeholder="Phone" value="{{$car->phone}}"/>
+                    <input placeholder="Phone" name="phone" value="{{$car->phone}}"/>
                   </div>
                 </div>
               </div>
@@ -166,63 +176,63 @@
                 <div class="row">
                     <div class="col">
                         <label class="checkbox">
-                            <input type="checkbox" name="air_conditioning" value="1" @checked($car->features->air_conditioning) />
+                            <input type="checkbox" name="features[air_conditioning]" value="1" @checked($car->features->air_conditioning) />
                             Air Conditioning
                         </label>
 
                         <label class="checkbox">
-                            <input type="checkbox" name="power_windows" value="1" @checked($car->features->power_windows) />
+                            <input type="checkbox" name="features[power_windows]" value="1" @checked($car->features->power_windows) />
                             Power Windows
                         </label>
 
                         <label class="checkbox">
-                            <input type="checkbox" name="power_door_locks" value="1" @checked($car->features->power_door_locks) />
+                            <input type="checkbox" name="features[power_door_locks]" value="1" @checked($car->features->power_door_locks) />
                             Power Door Locks
                         </label>
 
                         <label class="checkbox">
-                            <input type="checkbox" name="abs" value="1" @checked($car->features->abs) />
+                            <input type="checkbox" name="features[abs]" value="1" @checked($car->features->abs) />
                             ABS
                         </label>
 
                         <label class="checkbox">
-                            <input type="checkbox" name="cruise_control" value="1" @checked($car->features->cruise_control) />
+                            <input type="checkbox" name="features[cruise_control]" value="1" @checked($car->features->cruise_control) />
                             Cruise Control
                         </label>
 
                         <label class="checkbox">
-                            <input type="checkbox" name="bluetooth_connectivity" value="1" @checked($car->features->bluetooth_connectivity) />
+                            <input type="checkbox" name="features[bluetooth_connectivity]" value="1" @checked($car->features->bluetooth_connectivity) />
                             Bluetooth Connectivity
                         </label>
                     </div>
                     <div class="col">
                         <label class="checkbox">
-                            <input type="checkbox" name="remote_start" value="1" @checked($car->features->remote_start) />
+                            <input type="checkbox" name="features[remote_start]" value="1" @checked($car->features->remote_start) />
                             Remote Start
                         </label>
 
                         <label class="checkbox">
-                            <input type="checkbox" name="gps_navigation" value="1" @checked($car->features->gps_navigation) />
+                            <input type="checkbox" name="features[gps_navigation]" value="1" @checked($car->features->gps_navigation) />
                             GPS Navigation System
                         </label>
 
                         <label class="checkbox">
-                            <input type="checkbox" name="heated_seats" value="1" @checked($car->features->heated_seats) />
+                            <input type="checkbox" name="features[heated_seats]" value="1" @checked($car->features->heated_seats) />
                             Heated Seats
                         </label>
 
                         <label class="checkbox">
-                            <input type="checkbox" name="climate_control" value="1" @checked($car->features->climate_control) />
+                            <input type="checkbox" name="features[climate_control]" value="1" @checked($car->features->climate_control) />
                             Climate Control
                         </label>
 
                         <label class="checkbox">
-                            <input type="checkbox" name="rear_parking_sensors" value="1" @checked($car->features->rear_parking_sensors) />
+                            <input type="checkbox" name="features[rear_parking_sensors]" value="1" @checked($car->features->rear_parking_sensors) />
                             Rear Parking Sensors
                         </label>
 
                         <label class="checkbox">
-                            <input type="checkbox" name="leather_seats" value="1" @checked($car->features->leather_seats) />
+                            <input type="checkbox" name="features[leather_seats]" value="1" @checked($car->features->leather_seats) />
                             Leather Seats
                         </label>
                     </div>
@@ -231,7 +241,7 @@
 
               <div class="form-group">
                 <label>Detailed Description</label>
-                <textarea rows="10">{{$car->description}}</textarea>
+                <textarea rows="10" name="description">{{$car->description}}</textarea>
               </div>
               <div class="form-group">
                 <label class="checkbox">
@@ -259,7 +269,7 @@
           <div class="p-medium" style="width: 100%">
             <div class="flex justify-end gap-1">
               <button type="button" class="btn btn-default">Reset</button>
-              <button class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
             </div>
           </div>
         </form>

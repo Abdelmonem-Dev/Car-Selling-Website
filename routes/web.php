@@ -35,15 +35,17 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 ->name('verification.verify');
 
 
-Route::get('/addToken', function () {
-    return view('auth.addToken');
-})->name('auth.addToken');
+Route::post('/addToken', [AuthController::class,'checkToken'])->name('auth.addTokenAction');
+
 Route::get('/forgotPassword', function () {
     return view('auth.forgotPassword');
 })->name('auth.forgotPassword');
-Route::get('/resetPassword', function () {
-    return view('auth.resetPassword');
-})->name('auth.resetPassword');
+Route::get('/resetPassword', function(){return view('auth.resetPassword');})->name('auth.resetPassword');
+Route::get('/addToken/{email}',[VerificationController::class,'addTokenForm'])->name('auth.addToken');
+
+Route::post('/resetPassword', [AuthController::class,'ResetPassword'])->name('auth.ResetPasswordAction');
+Route::post('/forgotPassword', [VerificationController::class,'forgotPassword'])->name('auth.forgotPasswordAction');
+
 
 Route::post('/car/create', [CarController::class, 'createCar'])->name('car.createCar');
 Route::get('/car/search', [CarController::class, 'search'])->name('car.search');
@@ -51,8 +53,14 @@ Route::post('/car/search', [CarController::class, 'searchAction'])->name('car.se
 Route::get('/car/watchlist', [CarController::class, 'watchlist'])->name('car.watchlist');
 Route::get('/car/create', [CarController::class, 'create'])->name('car.create');
 Route::get('/car/edit/{car_id}', [CarController::class, 'edit'])->name('car.edit');
+Route::post('/car/edit/{car_id}', [CarController::class, 'editCar'])->name('car.editAction');
 Route::get('/car/{id}', [CarController::class, 'show'])->name('car.show');
 Route::get('/car', [CarController::class, 'index'])->name('car');
 Route::post('/favorite/toggle/{car}', [FavoriteController::class, 'toggle'])->name('favorite.toggle');
 
 Route::get('/car/delete/{car_id}', [CarController::class, 'destroy'])->name('car.delete');
+Route::get('/profile', [HomeController::class, 'profile'])->name('config.profile');
+Route::get('/settings', [HomeController::class, 'settings'])->name('config.settings');
+Route::put('/settings1', [HomeController::class, 'updateNamePhone'])->name('config.update1');
+Route::put('/settings2', [HomeController::class, 'updatePassword'])->name('config.update2');
+Route::post('/settings/delete', [HomeController::class, 'deleteAccount'])->name('config.deleteAccount');

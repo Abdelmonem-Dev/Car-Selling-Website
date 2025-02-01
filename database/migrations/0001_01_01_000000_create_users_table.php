@@ -21,7 +21,12 @@ return new class extends Migration
             $table->string('google_id',45)->nullable();
             $table->string('facebook_id',45)->nullable();
             $table->rememberToken();
+            $table->string('role')->default('user');
+            $table->boolean('status')->default(1);
+            $table->string('profile_photo_path', 2048)->nullable();
+            $table->integer('permission')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

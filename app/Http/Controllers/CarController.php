@@ -195,6 +195,67 @@ $car->features()->create([
     return view('car.edit', compact('car', 'makers', 'states', 'years'));
 }
 
+public function editCar(CarDetailsRequest $request, $car_id)
+{
+    $user = Auth::user();
+
+    if (!$user) {
+        return redirect()->route('home')->with('error', 'User not found.');
+    }
+
+    // Validate the request
+    $validated = $request->validated();
+
+    // Find the car and ensure it exists
+    $car = Car::find($car_id);
+    if (!$car) {
+        return redirect()->route('car')->with('error', 'Car not found.');
+    }
+
+    // Ensure the authenticated user owns the car
+    if (Auth::id() !== $car->user_id) {
+        return redirect()->route('car')->with('error', 'Unauthorized access.');
+    }
+
+    // Update the car details
+    $car->update([
+        'maker_id' => $validated['maker'],
+        'model_id' => $validated['model'],
+        'city_id' => $validated['city'],
+        'car_type_id' => $validated['car_type'],
+        'fuel_type_id' => $validated['fuel_type'],
+        'price' => $validated['price'],
+        'year' => $validated['year'],
+        'vin' => $validated['vin_code'],
+        'address' => $validated['address'],
+        'phone' => $validated['phone'],
+        'mileage' => $validated['mileage'],
+        'description' => $validated['description'],
+        'published_at' => $validated['published'] ?? null ? now() : null,
+        'updated_at' => now(),
+    ]);
+    // Update the car features if the relationship exists
+    if ($car->features()->exists()) {
+        $car->features()->update([
+    'car_id' => $car_id,
+    'abs' => $validated['features']['abs'] ?? 0,
+    'air_conditioning' => $validated['features']['air_conditioning'] ?? 0,
+    'power_windows' => $validated['features']['power_windows'] ?? 0,
+    'power_door_locks' => $validated['features']['power_door_locks'] ?? 0,
+    'cruise_control' => $validated['features']['cruise_control'] ?? 0,
+    'bluetooth_connectivity' => $validated['features']['bluetooth_connectivity'] ?? 0,
+    'remote_start' => $validated['features']['remote_start'] ?? 0,
+    'gps_navigation' => $validated['features']['gps_navigation'] ?? 0,
+    'heated_seats' => $validated['features']['heated_seats'] ?? 0,
+    'climate_control' => $validated['features']['climate_control'] ?? 0,
+    'rear_parking_sensors' => $validated['features']['rear_parking_sensors'] ?? 0,
+    'leather_seats' => $validated['features']['leather_seats'] ?? 0,
+        ]);
+    }
+
+    return redirect()->route('car')->with('success', 'Car details updated successfully.');
+}
+
 
     /**
      * Update the specified resource in storage.
