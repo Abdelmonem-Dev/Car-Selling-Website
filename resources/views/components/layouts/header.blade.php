@@ -75,14 +75,16 @@
               @if (Auth::check())
               <li>
                   <form action="{{route('auth.logout')}}" method="post">
-                      <button>Logout</button>
+                    @csrf
+
+                      <button type="submit">Logout</button>
                   </form>
               </li>
               @endif
 
             </ul>
           </div>
-        <a href="{{route('auth.login')}}" class="btn btn-login flex items-center">
+        <a href="{{route('auth.logout')}}" method="POST" class="btn btn-login flex items-center">
             <svg
               style="width: 18px; fill: currentColor; margin-right: 4px"
               viewBox="0 0 1024 1024"

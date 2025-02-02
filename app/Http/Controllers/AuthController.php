@@ -9,9 +9,22 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
+
+public function authenticated(Request $request, $user)
+{
+    // Update the session record with the user_id
+    DB::table('sessions')
+        ->where('id', session()->getId())
+        ->update(['user_id' => $user->id]);
+
+    // Redirect the user after login
+    return redirect()->intended('/dashboard');
+}
+
     public function signup(SignupRequest $request){
 
          $validated = $request->validated();
@@ -58,12 +71,40 @@ return redirect()->back()->with('error', 'Your account is not active. Please ver
     }
 }
 
-public function logout()
+public function logout(Request $request)
 {
-    // Auth::logoutOtherDevices(request('password'));
-    Auth::logout();
-    return redirect()->route('auth.login')->with('success', 'Logout successful!');
+    if (Auth::check()) {
+        $userId = Auth::id();
+
+        // Delete all user sessions from the database
+        DB::table('sessions')->where('user_id', $userId)->delete();
+
+        // Log out the user
+        Auth::logout();
+
+        // Clear and invalidate the session
+        $request->session()->flush();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Explicitly expire the session cookies
+        $cookie = cookie()->forget('laravel_session');
+        $cookieXsrf = cookie()->forget('XSRF-TOKEN');
+
+        // Redirect to login page with success message
+        return redirect()->route('auth.login')
+            ->withCookie($cookie)
+            ->withCookie($cookieXsrf)
+            ->with('success', 'Logged out successfully!');
+    }
+
+    return redirect()->route('auth.login');
 }
+
+
+
+
+
 
 
 public function checkToken(Request $request)
