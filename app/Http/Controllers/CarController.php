@@ -132,10 +132,10 @@ $car->features()->create([
             // Save the image path to the database
             $images[] = [
                 'car_id'     => $car->id,
-                'image_path' => 'car_images/' . $imageName, // Store the relative path
+                'image_path' => 'storage/' . $imageName, // Store the relative path
                 'position'   => $position, // Adjust position as needed
             ];
-            $position = 2;
+            $position++;
         }
 
         // Save the image records to the database

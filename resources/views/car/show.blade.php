@@ -154,13 +154,13 @@
 
               <div class="flex gap-1 my-medium">
                 <img
-                  src="/img/avatar.png"
-                  alt=""
-                  class="car-details-owner-image"
+                src="{{asset( 'storage/' . $car->owner->profile_photo_path)  }}"
+                alt=""
+                class="car-details-owner-image"
                 />
                 <div>
                   <h3 class="car-details-owner">{{$car->owner->name}}</h3>
-                  <div class="text-muted">{{$car->owner->cars()->count()}} cars</div>
+                  <div class="text-muted">{{$car->owner->cars()->count() ?? []}} cars</div>
                 </div>
               </div>
               <a href="tel:{{\Illuminate\Support\str::mask($car->phone,'*',-3)}}" class="car-details-phone">

@@ -45,8 +45,11 @@ class AuthController extends Controller
         return redirect()->back()->with('email', 'email or password wrong.')->withInput();
     }
 
-
-
+    $user = User::where('email', $validated['email'])->first();
+if($user->status === 0)
+{
+return redirect()->back()->with('error', 'Your account is not active. Please verify your email address.')->withInput();
+}
     // Attempt to log in
     if (Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']],$remember)) {
         return redirect()->route('home')->with('success', 'Login successful!');

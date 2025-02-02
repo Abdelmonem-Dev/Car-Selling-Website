@@ -7,7 +7,7 @@
             <!-- Profile Header -->
             <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
                 <img
-                    src="/img/avatar.png"
+                    src="{{asset( 'storage/' . $user->profile_photo_path)  }}"
                     alt="Profile Picture"
                     style="width: 100px; height: 100px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
                 />

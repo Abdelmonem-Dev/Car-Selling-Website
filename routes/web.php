@@ -64,3 +64,4 @@ Route::get('/settings', [HomeController::class, 'settings'])->name('config.setti
 Route::put('/settings1', [HomeController::class, 'updateNamePhone'])->name('config.update1');
 Route::put('/settings2', [HomeController::class, 'updatePassword'])->name('config.update2');
 Route::post('/settings/delete', [HomeController::class, 'deleteAccount'])->name('config.deleteAccount');
+Route::post('/settings/updateImageProfile',[HomeController::class,'updateProfileImage'])->name('config.updateProfileImage');

@@ -10,6 +10,7 @@ use App\Models\FuelType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -104,4 +105,21 @@ class HomeController extends Controller
 
         return redirect()->route('home')->with('success', 'Account deleted successfully.');
     }
+
+    public function updateProfileImage(Request $request) {
+        $request->validate([
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('profile_image')) {
+            $imagePath = $request->file('profile_image')->store('profile_images', 'public');
+
+            Auth::user()->profile_photo_path = $imagePath;
+            Auth::user()->save();
+            return response()->json(['message' => 'Profile image updated successfully', 'image_path' => $imagePath]);
+        }
+
+        return response()->json(['message' => 'No image uploaded'], 400);
+    }
+
 }
