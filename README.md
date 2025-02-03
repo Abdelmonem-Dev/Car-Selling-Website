@@ -4,7 +4,7 @@
   </a>
 </p>
 
-# Car Selling Website 🚗 *(Work in Progress 🚧)*  
+# Car Selling Website 🚗 
 A fully-featured **Car Selling Website** built using Laravel, Blade templates, and MySQL.  
 🚀 **This project is currently under development!** Features may change as it evolves.
 
