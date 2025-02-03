@@ -16,6 +16,7 @@ use App\Http\Requests\CarDetailsRequest;
 use App\Http\Requests\SearchRequest;
 use App\Models\CarType;
 use App\Models\FuelType;
+use Illuminate\Support\Facades\DB;
 
 class CarController extends Controller
 {
@@ -376,4 +377,98 @@ public function editCar(CarDetailsRequest $request, $car_id)
 
         return view('car.watchlist', ['cars' => $cars]);
     }
+
+    public function showCarImages($car_id)
+{
+    // Fetch the car with images and ensure it's an actual model instance
+    $car = Car::with('images')->where('id', $car_id)->first();
+
+    // Check if car exists
+    if (!$car) {
+        return redirect()->route('car')->with('error', 'Car not found.');
+    }
+
+    // Ensure the authenticated user owns the car
+    if (Auth::id() !== $car->user_id) {
+        return redirect()->route('car')->with('error', 'Unauthorized access.');
+    }
+
+    // Return view with car data
+    return view('car.carImages', compact('car'));
+}
+public function updateCarImages(Request $request) {
+    $user = Auth::user();
+    if (!$user) {
+        return redirect()->route('home')->with('error', 'User not found.');
+    }
+
+    // Validate input
+    $validated = $request->validate([
+        'images' => 'nullable|array',
+        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        'positions' => 'nullable|array',
+        'positions.*' => 'integer|min:1',
+        'delete_images' => 'nullable|array',
+        'delete_images.*' => 'integer|exists:car_images,id',
+    ]);
+
+    // Handle image deletions
+    if ($request->has('delete_images')) {
+        \App\Models\CarImage::whereIn('id', $request->delete_images)->delete();
+    }
+
+    // Update positions
+    if ($request->has('positions')) {
+        foreach ($request->positions as $imageId => $position) {
+            \App\Models\CarImage::where('id', $imageId)->update(['position' => $position]);
+        }
+    }
+
+    return redirect()->back()->with('success', 'Car images updated successfully.');
+}
+
+
+public function uploadCarImages(Request $request, $car_id)
+{
+    $validated = $request->validate([
+        'images' => 'required|array',
+        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $user = Auth::user();
+    $car = $user->cars->where('id', $car_id)->first();
+
+    if (!$car) {
+        return redirect()->back()->with('error', 'Car not found.');
+    }
+
+    // Process and store the images
+    if (!empty($validated['images']) && is_array($validated['images'])) {
+        $images = [];
+        $position = \App\Models\CarImage::where('car_id', $car->id)->max('position') + 1;
+
+        foreach ($validated['images'] as $image) {
+            // Generate a unique filename
+            $imageName = time() . '_' . $image->getClientOriginalName();
+
+            // Move the image to storage/app/public/car_images/
+            $image->move(public_path('storage/car_images'), $imageName); // Store the image in public/car_images
+
+            // Save the image path to the database
+            $images[] = [
+                'car_id'     => $car->id,
+                'image_path' => 'storage/car_images/' . $imageName, // Correct path for retrieval
+                'position'   => $position++,
+            ];
+        }
+
+        // Bulk insert images into the database
+        $car->images()->createMany($images);
+    } else {
+        return back()->withErrors(['images' => 'Please provide valid image data.']);
+    }
+
+    return redirect()->back()->with('success', 'Images uploaded successfully.');
+}
+
 }

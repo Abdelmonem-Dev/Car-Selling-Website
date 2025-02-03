@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Edit Car">
     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -11,7 +11,7 @@
 
     <main>
       <div class="container-small">
-        <h1 class="car-details-page-title">Edit Car: Lexus NX200t - 2016</h1>
+        <h1 class="car-details-page-title">{{$car->maker->name}} {{$car->model->name}} - {{$car->year}}</h1>
         <form action="{{route('car.editAction',$car->id)}}" method="POST" class="card add-new-car-form">
         @csrf
 
@@ -253,7 +253,7 @@
             <div class="form-images">
                 <p class="my-large">
                     Manage your images
-                    <a href="/car_images.html">From here</a>
+                    <a href="{{route('car.showImages',$car->id)}}">From here</a>
                 </p>
 
                 <div class="car-form-images">

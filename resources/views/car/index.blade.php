@@ -1,4 +1,4 @@
-<x-app-layout bodyClass="page-my-cars">
+<x-app-layout title="My Cars" bodyClass="page-my-cars">
 
     <main>
         <div>
@@ -52,7 +52,7 @@
                           edit
                         </a>
                         <a
-                          href=""
+                          href="{{route('car.showImages', $car->id)}}"
                           class="btn btn-edit inline-flex items-center"
                         >
                           <svg

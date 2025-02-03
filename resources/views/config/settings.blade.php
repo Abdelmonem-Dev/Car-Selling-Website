@@ -6,8 +6,8 @@
             <!-- Profile Header -->
             <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
                 <img id="profile_image"
-                    src="{{asset( 'storage/' . $user->profile_photo_path)  }}"
-                    alt="Profile Picture"
+                src="{{ asset('storage/' . ($user->profile_photo_path ?? 'default.jpg')) }}"
+                alt="Profile Picture"
                     style="width: 100px; height: 100px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
                     onclick="document.getElementById('fileInput').click()"
                     onmouseover="this.style.width='110px'; this.style.height='110px'; this.style.cursor='pointer'; this.style.boxShadow='0 4px 6px rgba(0, 0, 0, 0.2)';"
@@ -15,7 +15,7 @@
                 <!-- Hidden file input -->
                 <input type="file" id="fileInput" style="display: none;" onchange="updateProfileImage(event)" />
                 <div>
-                    <h1 style="font-size: 1.5rem; font-weight: bold; color: #1a202c;">{{$user->name}}</h1>
+                    <h1 style="font-size: 1.5rem; font-weight: bold; color: #1a202c;">{{($user->name ?? 'Unknown')}}</h1>
                     <a
                         href="{{ route('car') }}"
                         style="font-size: 1rem; color: #718096; text-decoration: none; transition: color 0.3s ease;"
@@ -51,7 +51,7 @@
                         type="text"
                         id="name"
                         name="name"
-                        value="{{$user->name}}"
+                        value="{{$user->name ?? 'Unknown'}}"
                         style="width: 100%; padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem; color: #4a5568;"
                     />
                 </div>
@@ -63,7 +63,7 @@
                         type="email"
                         id="email"
                         name="email"
-                        value="{{$user->email}}"
+                        value="{{$user->email ?? 'Unknown'}}"
                         style="width: 100%; padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem; color: #4a5568;"
                         readonly
                     />
@@ -76,7 +76,7 @@
                         type="text"
                         id="phone"
                         name="phone"
-                        value="{{$user->phone}}"
+                        value="{{$user->phone ?? 'Unknown'}}"
                         style="width: 100%; padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem; color: #4a5568;"
                     />
                 </div>
@@ -103,7 +103,7 @@
                 <div style="margin-bottom: 2rem;">
                     <h2 style="font-size: 1.25rem; font-weight: bold; color: #1a202c; margin-bottom: 1rem;">Update Password</h2>
 
-                    <input type="email" name="email" value="{{$user->email}}" hidden>
+                    <input type="email" name="email" value="{{$user->email ?? 'Unknown'}}" hidden>
 
                     <!-- Current Password -->
                     <div style="margin-bottom: 1.5rem;">
